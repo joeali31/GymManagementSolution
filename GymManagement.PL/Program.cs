@@ -1,3 +1,5 @@
+using GymManagement.BLL.Services.Classes;
+using GymManagement.BLL.Services.Interfaces;
 using GymManagement.DAL.DbContexts;
 using GymManagement.DAL.Repositories.Class;
 using GymManagement.DAL.Repositories.Interface;
@@ -14,6 +16,9 @@ namespace GymManagement.PL
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddScoped<IPlanRepository , PlanRepository>();
+            builder.Services.AddScoped<IPlanService , PlanService>();
+            builder.Services.AddScoped<IMemberService , MemberService>();
+            builder.Services.AddScoped(typeof(IGenericRepository<>) , typeof(GenericRepository<>));
             builder.Services.AddDbContext<GymDbContext>(option =>
             {
                 option.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]);
