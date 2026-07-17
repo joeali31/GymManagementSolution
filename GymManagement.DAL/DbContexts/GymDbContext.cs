@@ -1,4 +1,5 @@
 ﻿using GymManagement.DAL.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,10 +10,10 @@ using System.Threading.Tasks;
 
 namespace GymManagement.DAL.DbContexts
 {
-    public class GymDbContext : DbContext
+    public class GymDbContext : IdentityDbContext<ApplicationUser>
     {
 
-        public GymDbContext(DbContextOptions options) : base(options)
+        public GymDbContext(DbContextOptions<GymDbContext> options) : base(options)
         {
 
         }
@@ -21,7 +22,8 @@ namespace GymManagement.DAL.DbContexts
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
-            //base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(modelBuilder);
+
         }
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

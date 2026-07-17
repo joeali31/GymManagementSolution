@@ -30,22 +30,19 @@ namespace GymManagement.DAL.Repositories.Class
              await _dbset.FirstOrDefaultAsync(x => x.Id == id , ct);
         
 
-        public async Task<int> AddAsync(TEntity model, CancellationToken ct = default)
+        public void Add(TEntity model)
         {
-            await _dbset.AddAsync(model, ct);
-            return await _context.SaveChangesAsync(ct);
+            _dbset.Add(model);
         }
 
-        public async Task<int> UpdateAsync(TEntity model, CancellationToken ct = default)
+        public void Update(TEntity model)
         {
             _dbset.Update(model);
-            return await _context.SaveChangesAsync(ct);
         }
 
-        public async Task<int> DeleteAsync(TEntity model, CancellationToken ct = default)
+        public void Delete(TEntity model)
         {
             _dbset.Remove(model);
-            return await _context.SaveChangesAsync(ct);
         }
 
         public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> Predicate, CancellationToken ct = default)
@@ -56,6 +53,16 @@ namespace GymManagement.DAL.Repositories.Class
         public async Task<TEntity?> FirstOrDefaultEntityAsync(Expression<Func<TEntity, bool>> Predicate, CancellationToken ct = default)
         {
             return await _dbset.FirstOrDefaultAsync(Predicate, ct);
+        }
+
+        public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> Predicat, bool Tracking = false, CancellationToken ct = default)
+        => Tracking ? await _dbset.Where(Predicat).ToListAsync(ct) : await _dbset.AsNoTracking().Where(Predicat).ToListAsync(ct);
+
+        public async Task<int> CountEntityAsync(Expression<Func<TEntity, bool>>? Predicate, CancellationToken ct = default)
+        {
+            return Predicate == null
+                ? await _dbset.AsNoTracking().CountAsync(ct)
+                : await _dbset.AsNoTracking().CountAsync(Predicate, ct);
         }
     }
 }

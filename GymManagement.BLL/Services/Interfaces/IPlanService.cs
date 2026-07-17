@@ -1,4 +1,5 @@
-﻿using GymManagement.DAL.Models;
+﻿using GymManagement.BLL.ViewModels.Plans;
+using GymManagement.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,8 @@ namespace GymManagement.BLL.Services.Interfaces
     {
         Task<IEnumerable<Plan>> GetAllPlanAsync( bool Tracking = false ,CancellationToken ct = default);
         Task<Plan?> GetPlanByIdAsync(int id , CancellationToken ct = default);
+        Task<bool> ActivateAsync(int id , CancellationToken ct = default);
+        Task<PlaneEditViewModel?> GetPlanToUpdateAsync(int id , CancellationToken ct = default);
+        Task<bool> UpdatePlanAsync(PlaneEditViewModel model , int id, CancellationToken ct = default);
     }
 }

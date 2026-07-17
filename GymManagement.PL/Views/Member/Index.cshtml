@@ -60,9 +60,17 @@
                             <tr>
                                 <td>
                                     <span class="avatar">
-                                        <img src="~/images/@member.Photo" alt="@member.Photo" class="rounded-circle"
-                                        style="width: 40px; height: 40px;" />
-                                    </span>
+                                            @if(member.Photo is null)
+                                            {
+                                                <img src="~/images/Ellipse 7.jpg" alt="Default avatar" class="rounded-circle"
+                                                style="width: 40px; height: 40px;" />
+                                            }
+                                            else
+                                            {
+                                                <img src="@(Url.Action("Picture" , "Member" , new {id = member.Id}))" alt="@member.Photo" class="rounded-circle"
+                                                     style="width: 40px; height: 40px;" />
+                                            }
+                                        </span>
                                 </td>
                                 <td><span>@member.Name</span></td>
                                 <td><span>@member.Email</span></td>
